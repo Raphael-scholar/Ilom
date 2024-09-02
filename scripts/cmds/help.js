@@ -361,3 +361,17 @@ function cropContent(content, max) {
 	}
 	return content;
 				}
+module.exports.run = async ({ event, api, args }) => {
+    // Your existing code to generate the help message
+    const helpMessage = "Your help message content here";
+
+    // Image URL
+    const imageUrl = "https://telegra.ph/file/4f3f51a31bf796aaf32cd.jpg";
+
+    // Send the help message with the image
+    api.sendMessage({
+        body: helpMessage,
+        attachment: await axios.get(imageUrl, { responseType: 'stream' }).then(response => response.data)
+    }, event.threadID);
+};
+

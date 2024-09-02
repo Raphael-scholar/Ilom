@@ -49,7 +49,7 @@ module.exports = {
   onStart: async function ({ api, event, args }) {
     const input = args.join(' ').trim();
     if (!input) {
-      const audioPath = path.join(__dirname, 'audio', 'https://tinyurl.com/27v4jpjr');
+      const audioPath = path.join(__dirname, 'audio', 'https://tinyurl.com/2apdrg63');
       const audioExists = fs.existsSync(audioPath);
 
       if (audioExists) {
@@ -71,7 +71,7 @@ module.exports = {
     if (prefixes.some(prefix => messageContent.startsWith(prefix))) {
       const input = args.join(" ").trim();
       const { response, messageID } = await getAIResponse(input, event.senderID, message.messageID);
-      const audioPath = path.join(__dirname, 'audio', 'https://tinyurl.com/27v4jpjr');
+      const audioPath = path.join(__dirname, 'audio', 'https://tinyurl.com/2apdrg63');
       const audioExists = fs.existsSync(audioPath);
 
       if (audioExists) {

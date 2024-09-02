@@ -1,7 +1,7 @@
 const axios = require("axios");
-const ytdl = require("@distube/ytdl-core");
+const ytdl = require("ytdl-core");
 const fs = require("fs-extra");
-const { getStreamFromURL, downloadFile, formatNumber } = global.utils;
+const { getStreamFromURL, downloadFile } = global.utils;
 async function getStreamAndSize(url, path = "") {
 	const response = await axios({
 		method: "GET",
@@ -23,8 +23,8 @@ async function getStreamAndSize(url, path = "") {
 module.exports = {
 	config: {
 		name: "ytb",
-		version: "1.14",
-		author: "NTKhang",
+		version: "1.13",
+		author: "NTKhang | rehat--",
 		countDown: 5,
 		role: 0,
 		shortDescription: "YouTube",
@@ -58,8 +58,8 @@ module.exports = {
 			choose: "%1Reply tin nhắn với số để chọn hoặc nội dung bất kì để gỡ",
 			video: "video",
 			audio: "âm thanh",
-			downloading: "⬇️ Đang tải xuống %1 \"%2\"",
-			downloading2: "⬇️ Đang tải xuống %1 \"%2\"\n🔃 Tốc độ: %3MB/s\n⏸️ Đã tải: %4/%5MB (%6%)\n⏳ Ước tính thời gian còn lại: %7 giây",
+			downloading: "⬇ | Alessia Đang tải xuống %1 \"%2\"",
+			downloading2: "⬇ | Alessia tải xuống %1 \"%2\"\n🔃 Tốc độ: %3MB/s\n⏸ Đã tải: %4/%5MB (%6%)\n⏳ Ước tính thời gian còn lại: %7 giây",
 			noVideo: "⭕ Rất tiếc, không tìm thấy video nào có dung lượng nhỏ hơn 83MB",
 			noAudio: "⭕ Rất tiếc, không tìm thấy audio nào có dung lượng nhỏ hơn 26MB",
 			info: "💠 Tiêu đề: %1\n🏪 Channel: %2\n👨‍👩‍👧‍👦 Subscriber: %3\n⏱ Thời gian video: %4\n👀 Lượt xem: %5\n👍 Lượt thích: %6\n🆙 Ngày tải lên: %7\n🔠 ID: %8\n🔗 Link: %9",
@@ -71,8 +71,8 @@ module.exports = {
 			choose: "%1Reply to the message with a number to choose or any content to cancel",
 			video: "video",
 			audio: "audio",
-			downloading: "⬇️ Downloading %1 \"%2\"",
-			downloading2: "⬇️ Downloading %1 \"%2\"\n🔃 Speed: %3MB/s\n⏸️ Downloaded: %4/%5MB (%6%)\n⏳ Estimated time remaining: %7 seconds",
+			downloading: "⬇ | Alessia Downloading %1 \"%2\"",
+			downloading2: "⬇ | Alessia Downloading %1 \"%2\"\n🔃 Speed: %3MB/s\n⏸ Downloaded: %4/%5MB (%6%)\n⏳ Estimated time remaining: %7 seconds",
 			noVideo: "⭕ Sorry, no video was found with a size less than 83MB",
 			noAudio: "⭕ Sorry, no audio was found with a size less than 26MB",
 			info: "💠 Title: %1\n🏪 Channel: %2\n👨‍👩‍👧‍👦 Subscriber: %3\n⏱ Video duration: %4\n👀 View count: %5\n👍 Like count: %6\n🆙 Upload date: %7\n🔠 ID: %8\n🔗 Link: %9",
@@ -101,7 +101,7 @@ module.exports = {
 				return message.SyntaxError();
 		}
 
-		const checkurl = /^(?:https?:\/\/)?(?:m\.|www\.)?(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=|shorts\/))((\w|-){11})(?:\S+)?$/;
+		const checkurl = /^(?:https?:\/\/)?(?:m\.|www\.)?(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))((\w|-){11})(?:\S+)?$/;
 		const urlYtb = checkurl.test(args[1]);
 
 		if (urlYtb) {
@@ -109,7 +109,7 @@ module.exports = {
 			handle({ type, infoVideo, message, downloadFile, getLang });
 			return;
 		}
-
+		
 		let keyWord = args.slice(1).join(" ");
 		keyWord = keyWord.includes("?feature=share") ? keyWord.replace("?feature=share", "") : keyWord;
 		const maxResults = 6;
@@ -167,7 +167,7 @@ async function handle({ type, infoVideo, message, getLang }) {
 	const { title, videoId } = infoVideo;
 
 	if (type == "video") {
-		const MAX_SIZE = 83 * 1024 * 1024; // 83MB (max size of video that can be sent on fb)
+		const MAX_SIZE = 87031808; // 83MB (max size of video that can be sent on fb)
 		const msgSend = message.reply(getLang("downloading", getLang("video"), title));
 		const { formats } = await ytdl.getInfo(videoId);
 		const getFormat = formats
@@ -265,8 +265,7 @@ async function handle({ type, infoVideo, message, getLang }) {
 		const hours = Math.floor(lengthSeconds / 3600);
 		const minutes = Math.floor(lengthSeconds % 3600 / 60);
 		const seconds = Math.floor(lengthSeconds % 3600 % 60);
-		const time = `${hours ? hours + ":" : ""}${minutes < 10 ? "0" + minutes : minutes}:${seconds < 10 ? "0" + seconds : seconds}`;
-		let msg = getLang("info", title, channel.name, formatNumber(channel.subscriberCount || 0), time, formatNumber(viewCount), formatNumber(likes), uploadDate, videoId, `https://youtu.be/${videoId}`);
+		let msg = getLang("info", title, channel.name, (channel.subscriberCount || 0), `${hours}:${minutes}:${seconds}`, viewCount, likes, uploadDate, videoId, `https://youtu.be/${videoId}`);
 		// if (chapters.length > 0) {
 		// 	msg += getLang("listChapter")
 		// 		+ chapters.reduce((acc, cur) => {
@@ -316,7 +315,7 @@ async function search(keyWord) {
 
 async function getVideoInfo(id) {
 	// get id from url if url
-	id = id.replace(/(>|<)/gi, '').split(/(vi\/|v=|\/v\/|youtu\.be\/|\/embed\/|\/shorts\/)/);
+	id = id.replace(/(>|<)/gi, '').split(/(vi\/|v=|\/v\/|youtu\.be\/|\/embed\/)/);
 	id = id[2] !== undefined ? id[2].split(/[^0-9a-z_\-]/i)[0] : id[0];
 
 	const { data: html } = await axios.get(`https://youtu.be/${id}?hl=en`, {
@@ -335,7 +334,6 @@ async function getVideoInfo(id) {
 		getChapters = [];
 	}
 	const owner = json2.contents.twoColumnWatchNextResults.results.results.contents.find(x => x.videoSecondaryInfoRenderer).videoSecondaryInfoRenderer.owner;
-
 	const result = {
 		videoId,
 		title,
@@ -343,10 +341,10 @@ async function getVideoInfo(id) {
 		lengthSeconds: lengthSeconds.match(/\d+/)[0],
 		viewCount: viewCount.match(/\d+/)[0],
 		uploadDate: json.microformat.playerMicroformatRenderer.uploadDate,
-		// contents.twoColumnWatchNextResults.results.results.contents[0].videoPrimaryInfoRenderer.videoActions.menuRenderer.topLevelButtons[0].segmentedLikeDislikeButtonViewModel.likeButtonViewModel.likeButtonViewModel.toggleButtonViewModel.toggleButtonViewModel.defaultButtonViewModel.buttonViewModel.accessibilityText
-		likes: json2.contents.twoColumnWatchNextResults.results.results.contents.find(x => x.videoPrimaryInfoRenderer).videoPrimaryInfoRenderer.videoActions.menuRenderer.topLevelButtons.find(x => x.segmentedLikeDislikeButtonViewModel).segmentedLikeDislikeButtonViewModel.likeButtonViewModel.likeButtonViewModel.toggleButtonViewModel.toggleButtonViewModel.defaultButtonViewModel.buttonViewModel.accessibilityText.replace(/\.|,/g, '').match(/\d+/)?.[0] || 0,
-		chapters: getChapters.map((x, i) => {
-			const start_time = x.chapterRenderer.timeRangeStartMillis;
+likes: json2.contents.twoColumnWatchNextResults.results.results.contents.find(x => x.videoPrimaryInfoRenderer)
+  .videoPrimaryInfoRenderer.videoActions.menuRenderer.topLevelButtons.find(x => x.segmentedLikeDislikeButtonRenderer)?.segmentedLikeDislikeButtonRenderer.likeButton.toggleButtonRenderer.defaultText.accessibility?.accessibilityData.label.replace(/\.|,/g, '').match(/\d+/)?.[0] || 0,
+chapters: getChapters.map((x, i) => {
+  const start_time = x.chapterRenderer.timeRangeStartMillis;
 			const end_time = getChapters[i + 1]?.chapterRenderer?.timeRangeStartMillis || lengthSeconds.match(/\d+/)[0] * 1000;
 
 			return {
@@ -383,4 +381,4 @@ function parseAbbreviatedNumber(string) {
 			multi === 'K' ? num * 1000 : num);
 	}
 	return null;
-}
+			}

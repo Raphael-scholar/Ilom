@@ -33,7 +33,7 @@ async function generateImages(prompt) {
 module.exports = {
     config: {
         name: "sd3",
-        aliases: ["imagine"],
+        aliases: ["ima"],
         version: "1.0.3",
         author: "Shikaki",
         role: 0,
