@@ -27,7 +27,7 @@
     },
     {
         "domain": ".facebook.com",
-        "expirationDate": 1734119565.792381,
+        "expirationDate": 1734560352.461861,
         "hostOnly": false,
         "httpOnly": true,
         "name": "fr",
@@ -36,7 +36,7 @@
         "secure": true,
         "session": false,
         "storeId": null,
-        "value": "1xO4l9r4YAz6RpgN9.AWU4LiKdsbm6Nq_ZflCtN9cODOI.Bm4-Yk..AAA.0.0.Bm5emT.AWVLcW1Tx6M"
+        "value": "1cUUGjH5TKavzLuAM.AWW8u-xF20L2b2vAzcHs-Fq5oy0.Bm7KMe..AAA.0.0.Bm7KNg.AWUoYpNyB3s"
     },
     {
         "domain": ".facebook.com",
@@ -53,7 +53,7 @@
     },
     {
         "domain": ".facebook.com",
-        "expirationDate": 1757879565.115121,
+        "expirationDate": 1758320286.271222,
         "hostOnly": false,
         "httpOnly": true,
         "name": "xs",
@@ -62,11 +62,11 @@
         "secure": true,
         "session": false,
         "storeId": null,
-        "value": "9%3AFkei2-T_oBW1vQ%3A2%3A1726343568%3A-1%3A2952"
+        "value": "9%3AFkei2-T_oBW1vQ%3A2%3A1726343568%3A-1%3A2952%3A%3AAcWXDESRtc7zZ8oU7tPIgEH2GTMSTmEb9WU_wO5T8g"
     },
     {
         "domain": ".facebook.com",
-        "expirationDate": 1757879565.113834,
+        "expirationDate": 1758320286.270843,
         "hostOnly": false,
         "httpOnly": false,
         "name": "c_user",
@@ -79,7 +79,19 @@
     },
     {
         "domain": ".facebook.com",
-        "expirationDate": 1726948381,
+        "hostOnly": false,
+        "httpOnly": false,
+        "name": "presence",
+        "path": "/",
+        "sameSite": null,
+        "secure": true,
+        "session": true,
+        "storeId": null,
+        "value": "C%7B%22t3%22%3A%5B%5D%2C%22utc3%22%3A1726784406729%2C%22v%22%3A1%7D"
+    },
+    {
+        "domain": ".facebook.com",
+        "expirationDate": 1727389160,
         "hostOnly": false,
         "httpOnly": false,
         "name": "dpr",
@@ -118,7 +130,7 @@
     },
     {
         "domain": ".facebook.com",
-        "expirationDate": 1726948393,
+        "expirationDate": 1727389218,
         "hostOnly": false,
         "httpOnly": false,
         "name": "wd",
@@ -127,7 +139,7 @@
         "secure": true,
         "session": false,
         "storeId": null,
-        "value": "1048x2097"
+        "value": "1048x1934"
     },
     {
         "domain": ".facebook.com",
